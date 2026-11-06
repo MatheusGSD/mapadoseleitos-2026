@@ -283,6 +283,31 @@ export async function criarMapa(el, { malha, malhaUF, mapaBase, tempoMapaBase = 
     detalhar(map.queryRenderedFeatures(map.project(map.getCenter()), { layers: ['uf-fill'] })[0]?.id);
   });
 
+  // ---------- enquadramento ----------
+  // O enquadramento vale para o tamanho que o mapa tinha na hora, e o resize da MapLibre guarda o centro e o zoom (#52).
+  // Numa aba aberta em segundo plano, a página pode carregar e enquadrar o Brasil com o tamanho da aba escondida (uma
+  // foto da aba, como a de uma automação, faz o Chrome desenhar) e aparecer com outro: o Brasil sai do quadro. Até
+  // alguém mexer no mapa, cada mudança de tamanho enquadra de novo. A verificação no Chrome: aba-escondida.mjs.
+  let enquadrado = {}; // o último alvo de enquadrar(); null depois que alguém mexeu no mapa
+  // o arrasto, a roda, o teclado e os botões de zoom trazem o evento do navegador; enquadrar() e o resize, não
+  map.on('movestart', (e) => { if (e.originalEvent) enquadrado = null; });
+  map.on('resize', () => { if (enquadrado) enquadrar(enquadrado, { animar: false }); });
+  function enquadrar(alvo = {}, { animar = true } = {}) {
+    enquadrado = alvo;
+    const op = { padding: folga(), duration: animar ? 700 : 0, maxZoom: 13 };
+    // o ponto vai para o centro da parte visível com `offset`: o `padding` do easeTo fica gravado na câmera e se
+    // somaria ao do próximo fitBounds (#22)
+    const f = folga();
+    const offset = [(f.left - f.right) / 2, (f.top - f.bottom) / 2];
+    if (alvo.ponto) map.easeTo({ center: alvo.ponto, zoom: Math.max(map.getZoom(), 13.5), offset, duration: op.duration });
+    else if (alvo.m && malha.caixas.municipio.has(alvo.m)) {
+      detalhar(ufDoMunicipio(alvo.m));
+      map.fitBounds(malha.caixas.municipio.get(alvo.m), op);
+    }
+    else if (alvo.uf) map.fitBounds(malha.caixas.uf.get(alvo.uf), op);
+    else map.fitBounds(malha.caixas.brasil, op);
+  }
+
   return {
     /** A instância da MapLibre, para o que esta API não cobre. */
     map,
@@ -320,21 +345,8 @@ export async function criarMapa(el, { malha, malhaUF, mapaBase, tempoMapaBase = 
       selecao = { m, li };
       reaplicarSelecao();
     },
-    /** Enquadra { ponto: [lon, lat] }, { m }, { uf } ou, sem nada, o Brasil. */
-    enquadrar(alvo = {}, { animar = true } = {}) {
-      const op = { padding: folga(), duration: animar ? 700 : 0, maxZoom: 13 };
-      // o ponto vai para o centro da parte visível com `offset`: o `padding` do easeTo fica gravado na câmera e se
-      // somaria ao do próximo fitBounds (#22)
-      const f = folga();
-      const offset = [(f.left - f.right) / 2, (f.top - f.bottom) / 2];
-      if (alvo.ponto) map.easeTo({ center: alvo.ponto, zoom: Math.max(map.getZoom(), 13.5), offset, duration: op.duration });
-      else if (alvo.m && malha.caixas.municipio.has(alvo.m)) {
-        detalhar(ufDoMunicipio(alvo.m));
-        map.fitBounds(malha.caixas.municipio.get(alvo.m), op);
-      }
-      else if (alvo.uf) map.fitBounds(malha.caixas.uf.get(alvo.uf), op);
-      else map.fitBounds(malha.caixas.brasil, op);
-    },
+    /** Enquadra { ponto: [lon, lat] }, { m }, { uf } ou, sem nada, o Brasil, e de novo se o mapa mudar de tamanho. */
+    enquadrar,
     camadas(patch) { Object.assign(camadas, patch); aplicar(); carregarBase(); },
     redimensionar: () => map.resize(),
   };
