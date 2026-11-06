@@ -1,0 +1,114 @@
+/* Vista do território (#23): "como este território votou", os locais do município e as seções do local.
+   Carregada quando a vista abre (js/vistas/registro.js). Tokens e componentes em base.css. */
+.cabeca-territorio { margin-bottom: 0.9em; }
+/* o nome do local vem do TSE em caixa alta e costuma ser longo */
+.cabeca-territorio .nome-local { font-size: 1.2rem; line-height: 1.15; overflow-wrap: anywhere; }
+.cabeca-territorio .sub { margin-bottom: 0.1em; }
+.endereco { color: var(--tinta-3); font-size: 0.82rem; margin: 0; }
+
+.como-votou h2, .locais h2, .secoes h2 { margin: 0 0 0.35em; }
+.locais, .secoes { margin-top: 1.6em; }
+.controles { display: flex; flex-wrap: wrap; column-gap: 0.5em; }
+.controles .segmentado { margin: 0.15em 0 0.5em; }
+
+/* ranking: posição, nome e votos; embaixo, força e peso, e a barra da força local */
+.ranking { margin: 0.2em 0 0.3em; }
+.ranking:focus { outline: none; }
+.rk {
+  display: grid; grid-template-columns: 2.1em minmax(0, 1fr) auto; column-gap: 0.5em; align-items: baseline;
+  padding: 0.45em 0 0.5em; border-bottom: 1px solid var(--linha);
+}
+.rk-pos {
+  grid-row: 1 / 4; text-align: right; color: var(--tinta-3); font-size: 0.85rem; font-stretch: var(--largo);
+  font-weight: 600;
+}
+.rk-nome { min-width: 0; overflow-wrap: anywhere; }
+.rk-nome a { text-decoration-color: var(--linha-forte); }
+.rk-partido { color: var(--tinta-2); font-size: 0.8rem; margin-left: 0.2em; white-space: nowrap; }
+.rk-val { text-align: right; font-weight: 600; white-space: nowrap; }
+.rk-sub { grid-column: 2 / 4; color: var(--tinta-2); font-size: 0.8rem; }
+.rk .barra { grid-column: 2 / 4; margin-top: 0.3em; }
+.rk.eleito .rk-nome { font-weight: 700; }
+.rk.eleito .rk-pos { color: var(--tinta); }
+.rk .selo { margin-left: 0.25em; font-weight: 500; }
+/* o voto de legenda não pertence a ninguém: sem posição, em itálico */
+.rk.legenda .rk-nome { font-style: italic; color: var(--tinta-2); }
+.rk.legenda .barra i { background: var(--tinta-3); }
+/* o parlamentar de onde se veio ("Voltar para") */
+.rk.de { box-shadow: inset 3px 0 0 var(--realce); background: linear-gradient(90deg, #eef3fa, transparent 70%); }
+/* a linha que soma o que "Só eleitos" esconde: fecha a coluna em 100% */
+.rk.outros { border-top: 1px solid var(--tinta-3); border-bottom: 0; margin-top: -1px; }
+.rk.outros .rk-nome, .rk.outros .rk-val { color: var(--tinta-2); font-weight: 500; }
+
+/* destinação do voto (#10) */
+.selo-sub_judice { border-color: var(--alerta); color: var(--alerta); cursor: help; }
+.selo-anulado { border-style: dashed; color: var(--tinta-2); cursor: help; }
+.rk:has(.selo-anulado) .rk-val { color: var(--tinta-2); font-weight: 500; }
+.marcas { margin: 0.6em 0 0.4em; font-size: 0.82rem; color: var(--tinta-2); }
+.marcas div { display: grid; grid-template-columns: auto 1fr; column-gap: 0.5em; align-items: baseline; margin-bottom: 0.25em; }
+.marcas dd { margin: 0; }
+.sem-voto { margin: 0.5em 0; }
+.sem-voto summary { cursor: pointer; }
+.sem-voto p { margin: 0.3em 0 0; }
+.como-votou > .nota:last-child { margin-top: 0.6em; }
+
+/* locais de votação do município */
+.filtro-locais {
+  width: 100%; font: inherit; font-size: 0.92rem; padding: 0.45em 0.7em; margin: 0.1em 0 0.4em;
+  border: 1px solid var(--borda-campo); border-radius: 6px; background: #fff; color: var(--tinta);
+}
+.lista-locais li { border-bottom: 1px solid var(--linha); }
+.lista-locais a { display: block; padding: 0.45em 0; text-decoration: none; }
+.lista-locais a:hover .lc-nome { text-decoration: underline; text-decoration-color: var(--tinta-3); text-underline-offset: 2px; }
+.lc-nome { display: block; font-size: 0.9rem; font-weight: 600; overflow-wrap: anywhere; }
+.lc-sub { display: block; color: var(--tinta-2); font-size: 0.8rem; }
+.selo-sem-ponto { border-style: dashed; cursor: help; margin-left: 0.2em; }
+.lista-locais .nenhum { padding: 0.6em 0; color: var(--tinta-2); font-size: 0.9rem; border: 0; }
+.ver-locais { margin-top: 0.4em; }
+
+/* seções do local: a primeira coluna fica presa ao rolar para o lado */
+.secoes .rolagem { border: 1px solid var(--linha); border-radius: 6px; background: #fff; max-height: 60vh; }
+.tabela-secoes { font-size: 0.84rem; }
+.tabela-secoes th, .tabela-secoes td { white-space: nowrap; }
+.tabela-secoes thead th {
+  position: sticky; top: 0; background: #fff; white-space: normal; min-width: 5.5em; max-width: 8em; line-height: 1.2;
+}
+.tabela-secoes tbody th { font-weight: 600; color: var(--tinta); border-bottom: 1px solid var(--linha); padding: 0.35em 0.5em; }
+.tabela-secoes :is(thead, tbody) th:first-child { position: sticky; left: 0; background: #fff; text-align: left; min-width: 0; }
+.tabela-secoes thead th:first-child { z-index: 1; }
+.tabela-secoes td:nth-child(2), .tabela-secoes th:nth-child(2) { color: var(--tinta-2); }
+
+@media (max-width: 899px) {
+  /* no celular, a página já rola: a tabela cresce com ela, sem uma segunda rolagem vertical */
+  .secoes .rolagem { max-height: none; }
+}
+
+/* "Quem cobrar" (#43): a caixa do problema e, para cada eleito, o "Cobrar", que abre os canais e a mensagem */
+.cobranca h2 { margin: 0 0 0.35em; }
+.cb-rotulo { display: block; font-weight: 600; margin: 0.9em 0 0.3em; }
+.cb-opcional { color: var(--tinta-2); font-weight: 400; font-size: 0.85rem; }
+.cb-problema {
+  display: block; width: 100%; box-sizing: border-box; font: inherit; padding: 0.55em 0.8em; resize: vertical;
+  border: 1px solid var(--borda-campo); border-radius: 6px; background: #fff; color: var(--tinta);
+}
+.cb-problema::placeholder { color: var(--tinta-3); }
+.cb-cargo { margin: 1.4em 0 0.2em; font-size: 1rem; }
+.cobrar-lista { margin: 0.2em 0 0.3em; }
+.cobrar-lista:focus { outline: none; }
+.cb { padding: 0.45em 0 0.5em; border-bottom: 1px solid var(--linha); }
+.cb-linha { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.5em; align-items: center; }
+.cb-nome { min-width: 0; overflow-wrap: anywhere; font-weight: 700; }
+.cb-nome a { text-decoration-color: var(--linha-forte); }
+.cb-nome .selo { font-weight: 500; }
+.cb-sub { grid-column: 1; color: var(--tinta-2); font-size: 0.8rem; }
+.cb-cobrar { grid-column: 2; grid-row: 1 / 3; margin: 0; }
+.cb-cobrar[aria-expanded="true"] { background: transparent; color: var(--tinta); }
+.cb-canais { margin: 0.5em 0 0.2em; padding: 0.6em 0.8em; background: var(--fundo-2); border-radius: 6px; }
+.cb-canais > :first-child { margin-top: 0; }
+.cb-canais > :last-child { margin-bottom: 0; }
+.cb-titulo { font-weight: 600; font-size: 0.85rem; margin: 0.6em 0 0.1em; }
+.cb-acoes, .cb-redes { margin: 0 0 0.3em; }
+.cb-redes li { display: inline; }
+.cb-aviso { font-size: 0.85rem; font-weight: 600; margin: 0.3em 0; }
+.cb-mensagem summary { cursor: pointer; font-size: 0.85rem; color: var(--tinta-2); margin-top: 0.3em; }
+.cb-texto { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85rem; background: #fff; padding: 0.6em 0.8em; border-radius: 5px; }

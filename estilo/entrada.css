@@ -1,0 +1,64 @@
+/* Vistas do esqueleto (#21): entrada do Brasil, entrada da UF, busca e filtros, aviso. */
+
+/* entrada do Brasil: as 27 siglas por região, como um índice */
+.regiao { margin-top: 1.2em; }
+.regiao-nome { font-size: 0.82rem; font-weight: 600; color: var(--tinta-2); margin: 0 0 0.35em; }
+.ufs { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 4px; }
+.ufs a {
+  display: flex; flex-direction: column; height: 100%; padding: 0.45em 0.6em 0.5em; border-radius: 6px;
+  text-decoration: none; background: #fff; border: 1px solid var(--linha);
+}
+.ufs a:hover, .ufs a:focus-visible { border-color: var(--tinta); }
+.uf-sigla { font-stretch: var(--largo); font-weight: 700; font-size: 1.45rem; line-height: 1; letter-spacing: -0.01em; }
+.uf-nome { font-size: 0.82rem; line-height: 1.15; margin-top: 0.3em; }
+.uf-vagas { font-size: 0.72rem; color: var(--tinta-2); line-height: 1.2; margin-top: auto; padding-top: 0.25em; }
+.todos { margin-top: 1.4em; }
+
+/* entrada da UF: um bloco por cargo */
+.bloco-cargo { margin-top: 1.4em; }
+.bloco-titulo { font-size: 1rem; margin: 0; }
+.bloco-data { font-size: 0.8rem; color: var(--tinta-2); margin: 0.1em 0 0.3em; }
+
+/* busca e filtros */
+.contagem { font-size: 0.92rem; color: var(--tinta-2); margin: -0.1em 0 0.6em; }
+.municipios-achados { font-size: 0.9rem; }
+.ligados { display: flex; flex-wrap: wrap; gap: 0.35em; align-items: center; margin: 0.4em 0 0.7em; }
+.ligado {
+  display: inline-flex; align-items: center; gap: 0.35em; border: 1px solid var(--tinta); background: var(--tinta); color: #fff;
+  border-radius: 999px; padding: 0.15em 0.65em; font-size: 0.84rem; text-decoration: none; cursor: pointer;
+}
+.ligado span { opacity: 0.75; font-size: 0.75em; }
+.limpar { font-size: 0.84rem; margin-left: 0.2em; }
+.filtros { border: 1px solid var(--linha); border-radius: 8px; background: #fff; margin: 0.4em 0 0.8em; }
+.filtros > summary { padding: 0.55em 0.8em; font-weight: 600; cursor: pointer; }
+.filtros[open] > summary { border-bottom: 1px solid var(--linha); }
+.filtros > .nota { margin: 0.6em 0.8em 0; }
+.criterio { border: 0; margin: 0; padding: 0.55em 0.8em 0.4em; min-width: 0; }
+.criterio + .criterio { border-top: 1px solid var(--linha); }
+.criterio legend { font-weight: 600; font-size: 0.86rem; padding: 0; margin-bottom: 0.3em; }
+.criterio legend small { font-weight: 400; color: var(--tinta-2); }
+.opcoes { display: flex; flex-wrap: wrap; gap: 4px; }
+.opcao {
+  border: 1px solid var(--linha-forte); background: var(--papel); border-radius: 5px; padding: 0.18em 0.5em; font-size: 0.82rem;
+  cursor: pointer; color: var(--tinta);
+}
+.opcao .n { color: var(--tinta-3); font-size: 0.9em; margin-left: 0.15em; }
+.opcao:hover { border-color: var(--tinta-3); }
+.opcao[aria-pressed="true"] { background: var(--tinta); border-color: var(--tinta); color: #fff; }
+.opcao[aria-pressed="true"] .n { color: rgba(255, 255, 255, 0.7); }
+.opcao.zero:not([aria-pressed="true"]) { color: var(--tinta-3); border-style: dashed; }
+.criterio-uf .opcoes { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
+.ordem { display: flex; flex-wrap: wrap; align-items: center; gap: 0 0.6em; }
+.ordem-rotulo { font-size: 0.84rem; color: var(--tinta-2); }
+.grupo-uf { font-size: 0.92rem; margin: 1em 0 0.1em; display: flex; justify-content: space-between; align-items: baseline; }
+.grupo-uf a { text-decoration: none; }
+.grupo-uf a:hover { text-decoration: underline; }
+.grupo-uf .n { font-weight: 400; color: var(--tinta-3); font-size: 0.85rem; }
+
+/* aviso de quem deixou de ser eleito */
+.aviso-ex { border-left: 3px solid var(--alerta); padding-left: 0.9em; }
+
+/* "Cobrar: qual é o seu município?" (#43), a caixa da cobrança na entrada */
+.cobrar-entrada { margin: 1em 0 1.4em; padding: 0.8em 0.9em 0.2em; background: var(--fundo-2); border-radius: 8px; }
+.rotulo-busca { display: block; font-weight: 700; font-stretch: var(--largo); margin-bottom: 0.35em; }
+.cobrar-entrada .nota { margin: 0.5em 0 0.6em; }

@@ -1,0 +1,72 @@
+/* Estrutura da variante A (#7): o mapa ocupa a tela e tudo acontece num painel. No computador, o painel flutua à
+   esquerda; no celular, fica embaixo do mapa e passa por cima dele ao rolar. */
+.raiz { position: fixed; inset: 0; }
+.mapa { position: absolute; inset: 0; background: #eef0ec; }
+.mapa-sem { display: grid; place-items: center; padding: 2em; color: var(--tinta-2); text-align: center; }
+.painel {
+  position: absolute; top: 12px; left: 12px; bottom: 12px; width: 410px; z-index: 5;
+  background: var(--papel); border-radius: 10px; box-shadow: var(--sombra); display: flex; flex-direction: column; overflow: hidden;
+}
+.topo { padding: 10px 14px 8px; border-bottom: 1px solid var(--linha); }
+.marca {
+  display: inline-block; font-stretch: var(--largo); font-weight: 700; font-size: 0.82rem; text-decoration: none;
+  color: var(--tinta-2); margin-bottom: 0.45em; letter-spacing: 0.01em;
+}
+.conteudo { overflow: auto; padding: 14px 16px 24px; flex: 1; }
+.conteudo:focus { outline: none; }
+.rodape { padding: 8px 16px 10px; border-top: 1px solid var(--linha); font-size: 0.76rem; color: var(--tinta-2); }
+.rodape p { margin: 0; }
+
+/* busca */
+.busca { position: relative; }
+.busca input {
+  width: 100%; font: inherit; padding: 0.55em 0.8em; border: 1px solid var(--borda-campo); border-radius: 6px; background: #fff;
+  color: var(--tinta);
+}
+.busca input::placeholder { color: var(--tinta-3); }
+.busca-res {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 1px solid var(--linha);
+  border-radius: 6px; box-shadow: var(--sombra); z-index: 40; max-height: min(60vh, 420px); overflow: auto; padding: 4px 0;
+}
+.busca-res a { display: flex; gap: 0.6em; align-items: center; padding: 0.45em 0.7em; text-decoration: none; }
+.busca-res [aria-selected="true"] a, .busca-res a:hover { background: var(--fundo-2); }
+.busca-res small { display: block; color: var(--tinta-2); font-size: 0.78rem; }
+.busca-res .ver-todos { color: var(--realce); font-weight: 600; font-size: 0.9rem; padding-left: 0.2em; }
+.busca-res li:last-child:not(:first-child) { border-top: 1px solid var(--linha); margin-top: 4px; }
+.icone-municipio { background: transparent; border: 1.5px solid var(--tinta-3); border-radius: 4px; }
+
+/* trilha: Brasil › UF › município › local */
+.trilha { font-size: 0.82rem; margin-top: 0.55em; color: var(--tinta-2); display: flex; align-items: baseline; gap: 0.6em; }
+.trilha ol { display: flex; flex-wrap: wrap; min-width: 0; }
+.trilha li { min-width: 0; }
+.trilha li + li::before { content: '›'; margin: 0 0.4em; color: var(--tinta-3); }
+.trilha [aria-current] { color: var(--tinta); font-weight: 600; }
+.trilha-sair {
+  flex: none; display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%;
+  background: var(--fundo-2); text-decoration: none; color: var(--tinta); font-size: 0.8rem;
+}
+
+/* camadas */
+.camadas {
+  position: absolute; top: 12px; right: 12px; z-index: 5; background: var(--papel); border-radius: 8px;
+  padding: 0.4em 0.8em; box-shadow: var(--sombra); font-size: 0.85rem;
+}
+.camadas[open] { padding-bottom: 0.6em; }
+.camadas summary { font-weight: 700; cursor: pointer; }
+.camadas[open] summary { margin-bottom: 0.2em; }
+.camadas label { display: block; cursor: pointer; }
+.camadas label:has(input:disabled) { color: var(--tinta-3); cursor: default; }
+
+@media (max-width: 899px) {
+  /* o mapa vem depois do painel no documento (a ordem do teclado), mas fica em cima na tela */
+  .raiz { position: static; display: flex; flex-direction: column; }
+  .mapa { position: sticky; top: 0; height: 46vh; z-index: 1; order: -1; flex: none; }
+  .mapa-sem { height: auto; min-height: 20vh; position: static; }
+  .painel {
+    position: relative; inset: auto; width: auto; z-index: 2; border-radius: 14px 14px 0 0; margin-top: -14px;
+    overflow: visible; min-height: 60vh; box-shadow: 0 -2px 12px rgba(20, 30, 40, 0.12);
+  }
+  .topo { position: sticky; top: 0; z-index: 10; background: var(--papel); border-radius: 14px 14px 0 0; padding: 10px 16px 8px; }
+  .conteudo { overflow: visible; padding: 14px 16px 24px; }
+  .camadas { top: 8px; right: 8px; font-size: 0.78rem; padding: 0.3em 0.6em; }
+}

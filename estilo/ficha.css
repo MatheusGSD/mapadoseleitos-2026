@@ -1,0 +1,103 @@
+/* Aba Ficha da vista do parlamentar (#24). Carregada com a vista do parlamentar (js/vistas/registro.js). Tokens e
+   componentes em base.css; o azul do "virou norma" é o realce do site. */
+:root {
+  --norma-fundo: #eef3fa;
+  --recurso-fundo: #fbf5ec;
+}
+
+.ficha-bloco { margin: 0 0 1.5em; padding-top: 1.1em; border-top: 1px solid var(--linha); }
+.ficha > .ficha-bloco:first-child { padding-top: 0; border-top: 0; }
+.ficha-bloco h2 { margin: 0 0 0.5em; }
+.ficha-bloco h3 { font-size: 0.95rem; margin: 0 0 0.25em; }
+.ficha .credito { margin: 0.5em 0 0; line-height: 1.4; }
+.ficha .credito a { color: inherit; }
+
+/* registro sob recurso (#10): o texto completo, antes de tudo */
+.ficha-recurso {
+  border-left: 3px solid var(--alerta); background: var(--recurso-fundo); padding: 0.65em 0.9em 0.7em;
+  border-radius: 0 6px 6px 0; margin: 0 0 1.3em;
+}
+.ficha-recurso h2 { color: var(--alerta); font-size: 0.95rem; margin: 0 0 0.2em; }
+.ficha-recurso p { margin: 0; font-size: 0.9rem; }
+
+/* biografia: o primeiro parágrafo da Wikipédia */
+.bio { line-height: 1.55; margin: 0; max-width: 65ch; }
+
+/* projetos */
+.ficha-projetos { scroll-margin-top: 8px; }
+.projetos-resumo { font-weight: 600; line-height: 1.3; margin: 0 0 0.2em; }
+.projetos-normas { display: inline-block; font-size: 0.82rem; color: var(--realce); margin-left: 0.55em; }
+.ficha-projetos > .nota { margin: 0 0 0.3em; }
+.projetos { margin: 0; }
+.projeto { padding: 0.55em 0 0.6em; border-bottom: 1px solid var(--linha); }
+.projeto-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15em 0.45em; margin: 0; }
+.projeto-cab > a { font-stretch: var(--largo); font-weight: 700; text-decoration-color: var(--linha-forte); }
+.projeto-cab > a:hover { text-decoration-color: currentColor; }
+.projeto-casa { margin-left: auto; color: var(--tinta-2); font-size: 0.8rem; white-space: nowrap; }
+.projeto-ementa {
+  margin: 0.2em 0 0; font-size: 0.88rem; line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.selo-norma { border-color: var(--realce); color: var(--realce); background: var(--norma-fundo); }
+/* a lista inteira, dividida pelo ano de apresentação. Um ano fora da tela não é diagramado até chegar perto dela
+   (a lista de Amom Mandel tem 1.222 projetos e mais de 120 mil pixels de altura) */
+.projetos-do-ano { content-visibility: auto; contain-intrinsic-size: auto 1200px; }
+.ficha-bloco .projetos-ano {
+  display: flex; justify-content: space-between; align-items: baseline; margin: 1.1em 0 0;
+  padding-bottom: 0.2em; border-bottom: 1px solid var(--tinta-3); font-stretch: var(--largo); font-size: 0.9rem;
+}
+.projetos-ano span { font-stretch: 100%; font-weight: 500; font-size: 0.78rem; color: var(--tinta-2); }
+.projetos-acoes { margin: 0.6em 0 0.2em; }
+.projetos-acoes:empty { display: none; }
+.projetos-coautor { margin: 0.5em 0 0.3em; font-size: 0.92rem; }
+.projetos-casas { display: flex; flex-wrap: wrap; gap: 0.2em 1.2em; margin: 0.4em 0 0; font-size: 0.88rem; }
+
+/* candidaturas anteriores: ano, cargo e onde; embaixo, partido e resultado */
+.candidaturas { margin: 0.1em 0 0; }
+.candidaturas li {
+  display: grid; grid-template-columns: 3.1em minmax(0, 1fr); column-gap: 0.4em; align-items: baseline;
+  padding: 0.38em 0; border-bottom: 1px solid var(--linha); font-size: 0.88rem;
+}
+.cand-ano { font-stretch: var(--largo); font-weight: 700; color: var(--tinta-2); }
+.cand-o-que { min-width: 0; overflow-wrap: anywhere; }
+.cand-o-que b { font-weight: 600; }
+.cand-sub { display: block; color: var(--tinta-2); font-size: 0.82rem; }
+.ficha-bloco .cand-titulo { margin-top: 1.1em; }
+
+/* dados da candidatura: a foto do TSE ao lado dos campos, como no registro */
+.tse-cartao { display: grid; grid-template-columns: 84px minmax(0, 1fr); column-gap: 14px; align-items: start; }
+.tse-foto { margin: 0.35em 0 0; }
+.tse-foto img {
+  display: block; width: 84px; height: auto; aspect-ratio: 161 / 225; object-fit: cover; border-radius: 4px;
+  background: var(--fundo-2);
+}
+.tse-foto figcaption { margin: 0.3em 0 0; }
+.fatos { margin: 0; }
+.fatos div { padding: 0.32em 0 0.36em; border-bottom: 1px solid var(--linha); }
+.fatos div:first-child { padding-top: 0; }
+.fatos dt { font-size: 0.74rem; color: var(--tinta-2); }
+.fatos dd { margin: 0; font-size: 0.92rem; line-height: 1.3; overflow-wrap: anywhere; }
+
+.tse-bens { margin-top: 1em; }
+/* "Bens declarados" tem o rótulo como os campos de cima */
+.ficha-bloco .tse-bens h3 { font-size: 0.74rem; font-weight: 400; color: var(--tinta-2); margin: 0; }
+.bens-total { font-weight: 600; margin: 0 0 0.1em; }
+.tse-bens > .nota { margin: 0.4em 0 0; font-size: 0.82rem; }
+.recolhe { margin: 0.2em 0 0; }
+.recolhe > summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; padding: 0.3em 0; width: fit-content; }
+.recolhe > summary:hover { text-decoration: underline; text-decoration-color: var(--tinta-3); text-underline-offset: 2px; }
+.bens li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1em; padding: 0.3em 0;
+  border-bottom: 1px solid var(--linha); font-size: 0.86rem;
+}
+.bens-valor { white-space: nowrap; font-weight: 600; }
+.tse-candidaturas { margin-top: 0.9em; }
+
+/* em outros sites */
+.ficha-links li { padding: 0.25em 0; }
+.dominio { color: var(--tinta-3); font-size: 0.78rem; margin-left: 0.25em; }
+
+@media (max-width: 899px) {
+  /* no celular, a busca fica presa no topo ao rolar: o começo dos projetos não pode ficar embaixo dela */
+  .ficha-projetos { scroll-margin-top: 120px; }
+}

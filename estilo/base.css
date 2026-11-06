@@ -1,0 +1,124 @@
+/* Base do site: tokens e componentes comuns às vistas, herdados do protótipo aprovado (variante A, #7).
+   As vistas do parlamentar, do território e da ficha têm folhas próprias (parlamentar.css, territorio.css,
+   ficha.css), carregadas quando a vista abre. */
+:root {
+  --papel: #fbfbf9;
+  --tinta: #1c2228;
+  --tinta-2: #535c65;
+  /* o cinza mais claro do texto (posições, créditos, endereços): 4,6:1 sobre o papel, o mínimo do WCAG AA para texto
+     pequeno. Era #868e96, 3,2:1 (#33) */
+  --tinta-3: #6b737a;
+  /* a borda dos campos de texto: 3,2:1 sobre o papel, o mínimo do WCAG para o contorno de um controle (#33) */
+  --borda-campo: #868e96;
+  --linha: #e3e5e4;
+  --linha-forte: #cfd3d3;
+  --fundo-2: #f0f1ee;
+  --realce: #1c5cab;
+  --alerta: #8a5300;
+  --sombra: 0 2px 14px rgba(20, 30, 40, 0.16);
+  --largo: 112.5%; /* Archivo SemiExpanded: nomes e títulos */
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--papel); color: var(--tinta);
+  font-family: 'Archivo', system-ui, sans-serif; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums;
+}
+h1, h2, h3 { margin: 0 0 0.4em; line-height: 1.15; }
+h2 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0 0 0.6em; }
+ul, ol { list-style: none; padding: 0; margin: 0; }
+a { color: inherit; text-decoration-color: var(--tinta-3); text-underline-offset: 2px; }
+a:hover { text-decoration-color: currentColor; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--realce); outline-offset: 2px; }
+.so-leitor { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.carregando { padding: 1em 0; color: var(--tinta-2); }
+
+/* tipo */
+.titulo { font-stretch: var(--largo); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.01em; line-height: 1.12; }
+.nome { font-stretch: var(--largo); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.01em; margin: 0; line-height: 1.1; }
+.sub { color: var(--tinta-2); margin: 0.15em 0 0.3em; }
+.nota { color: var(--tinta-2); font-size: 0.88rem; }
+.credito { color: var(--tinta-3); font-size: 0.78rem; }
+.vazio { background: var(--fundo-2); padding: 0.8em 1em; border-radius: 6px; }
+.num { text-align: right; }
+.rolagem { overflow-x: auto; }
+.em-construcao { border: 1px dashed var(--linha-forte); color: var(--tinta-2); padding: 0.8em 1em; border-radius: 6px; font-size: 0.9rem; }
+
+/* foto: a do TSE por cima das iniciais, que aparecem enquanto ela carrega ou se ela não vier (#24) */
+.foto {
+  width: 36px; height: 36px; border-radius: 50%; flex: none; display: inline-grid; place-items: center;
+  background: var(--fundo-2); color: var(--tinta-2); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.02em;
+  position: relative; overflow: hidden;
+}
+.foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+.foto-p { width: 28px; height: 28px; font-size: 0.68rem; }
+.foto-g { width: 64px; height: 64px; font-size: 1.15rem; }
+
+/* selos e marcas */
+.selo {
+  display: inline-block; border: 1px solid var(--tinta-3); color: var(--tinta-2); border-radius: 3px; font-size: 0.74rem;
+  padding: 0 0.4em; line-height: 1.5; font-weight: 500; vertical-align: middle; white-space: nowrap;
+}
+.selo-recurso { border-color: var(--alerta); color: var(--alerta); cursor: help; }
+.amostra { display: inline-block; width: 14px; height: 14px; border-radius: 2px; vertical-align: middle; margin-right: 0.35em; }
+.barra { display: block; height: 5px; background: var(--fundo-2); border-radius: 0 2px 2px 0; }
+.barra i { display: block; height: 100%; background: var(--realce); border-radius: 0 2px 2px 0; }
+
+/* botões */
+.botao {
+  display: inline-flex; align-items: center; gap: 0.3em; padding: 0.42em 0.8em; margin: 0.2em 0.3em 0.2em 0;
+  border: 1px solid var(--tinta); border-radius: 5px; background: var(--tinta); color: #fff; text-decoration: none;
+  font: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+}
+.botao.leve { background: transparent; color: var(--tinta); border-color: var(--linha-forte); }
+.botao.leve:hover { border-color: var(--tinta-3); }
+/* sem overflow: hidden, que cortava o contorno do foco (#33): as pontas arredondam as opções */
+.segmentado { display: inline-flex; border: 1px solid var(--linha-forte); border-radius: 6px; margin: 0.3em 0 0.6em; max-width: 100%; }
+.segmentado > * { font: inherit; font-size: 0.88rem; border: 0; background: #fff; padding: 0.4em 0.8em; cursor: pointer; color: var(--tinta-2); text-decoration: none; white-space: nowrap; }
+.segmentado > * + * { border-left: 1px solid var(--linha-forte); }
+.segmentado > :first-child { border-radius: 5px 0 0 5px; }
+.segmentado > :last-child { border-radius: 0 5px 5px 0; }
+.segmentado > :focus-visible { position: relative; z-index: 1; }
+/* links: a opção escolhida leva aria-current (aria-pressed é de botão, e o leitor de tela não o lê num link) */
+.segmentado > [aria-current="true"] { background: var(--tinta); color: #fff; }
+
+/* tabelas e números */
+.tabela { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+.tabela th { text-align: left; font-weight: 600; color: var(--tinta-2); font-size: 0.78rem; border-bottom: 1px solid var(--tinta-3); padding: 0.3em 0.5em; vertical-align: bottom; }
+.tabela td { padding: 0.35em 0.5em; border-bottom: 1px solid var(--linha); vertical-align: top; }
+.tabela.num td:not(:first-child), .tabela.num th:not(:first-child) { text-align: right; }
+.numeros { display: flex; flex-wrap: wrap; gap: 0.4em 1.4em; margin: 0.8em 0; }
+.numeros dt { font-size: 0.75rem; color: var(--tinta-2); }
+.numeros dd { margin: 0; font-size: 1.25rem; font-weight: 700; font-stretch: 108%; }
+.numeros.pequenos dd { font-size: 1rem; }
+
+/* abas, cartão e listas com posição (vista do parlamentar e do território) */
+.abas { display: flex; border-bottom: 1px solid var(--linha); margin: 0.6em 0 0.9em; }
+.abas a { font-weight: 600; border-bottom: 2px solid transparent; padding: 0.55em 0.8em; color: var(--tinta-2); text-decoration: none; }
+.abas a[aria-current="page"] { color: var(--tinta); border-bottom-color: var(--tinta); }
+.cartao { border: 1px solid var(--linha); border-radius: 8px; padding: 0.8em 0.9em; margin-bottom: 1.1em; background: #fff; }
+.cartao h2 { font-size: 1.1rem; margin: 0; }
+.voltar { display: inline-block; font-size: 0.88rem; margin-bottom: 0.6em; }
+/* o link "o que é isto?" para a página "Como funciona" (js/ui/o-que-e.js), junto do termo nas vistas */
+.o-que-e { white-space: nowrap; }
+
+/* lista dos eleitos: foto, nome, partido e votos, selo */
+.lista-eleitos li { border-bottom: 1px solid var(--linha); }
+.eleito { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; column-gap: 0.4em; padding: 0.45em 0; text-decoration: none; }
+a.eleito:hover .eleito-nome { text-decoration: underline; text-decoration-color: var(--tinta-3); text-underline-offset: 2px; }
+.eleito .foto { grid-row: 1 / 3; }
+.eleito-nome { font-weight: 700; }
+.eleito-sub { grid-column: 2; color: var(--tinta-2); font-size: 0.85rem; }
+.eleito-selos { grid-column: 3; grid-row: 1 / 3; }
+.eleito-vago .eleito-nome { font-weight: 600; color: var(--tinta-2); }
+.foto-vaga { background: transparent; border: 1.5px dashed var(--tinta-3); }
+
+/* dica do mapa */
+.maplibregl-popup.dica .maplibregl-popup-content { font: 0.84rem/1.35 'Archivo', system-ui, sans-serif; padding: 0.45em 0.7em; box-shadow: var(--sombra); color: var(--tinta); }
+.aviso-erro { border-left: 3px solid var(--alerta); padding-left: 0.9em; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

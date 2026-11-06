@@ -1,0 +1,75 @@
+/* Vista do parlamentar (#22). Carregada quando a vista abre (js/vistas/registro.js). As cores das faixas ficam em
+   js/vistas/parlamentar/escala.js; o laranja do núcleo da votação é o mesmo do contorno no mapa. */
+:root {
+  --nucleo: #e8590c;
+  --nucleo-texto: #b5470b; /* 5,2:1 sobre o papel */
+}
+
+/* cabeçalho */
+.cabeca-parlamentar { display: flex; gap: 12px; align-items: center; }
+.cabeca-parlamentar .sub { margin: 0.2em 0 0.25em; line-height: 1.3; font-size: 0.92rem; }
+.cabeca-parlamentar .selos { margin: 0; display: flex; flex-wrap: wrap; gap: 0.3em; }
+.cabeca-parlamentar + .numeros { margin: 0.9em 0 0.5em; }
+.numeros small { font-size: 0.72em; font-weight: 500; color: var(--tinta-2); font-stretch: 100%; }
+
+/* dispersão da votação: a frase e a régua de 0% (concentrado) a 50% (espalhado como o eleitorado) */
+.dispersao { margin: 0 0 0.4em; }
+.dispersao-frase { font-size: 0.92rem; margin: 0 0 0.55em; max-width: 34em; }
+.dispersao-frase b { font-weight: 700; color: var(--realce); }
+.regua { position: relative; height: 14px; margin: 0 7px; }
+.regua-trilho {
+  position: absolute; left: -7px; right: -7px; top: 6px; height: 2px; border-radius: 1px;
+  background: linear-gradient(to right, var(--tinta-3), var(--linha-forte));
+}
+.regua-mediana { position: absolute; top: 1px; width: 2px; height: 12px; margin-left: -1px; background: var(--tinta-2); }
+.regua-ponto {
+  position: absolute; top: 1px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
+  background: var(--realce); box-shadow: 0 0 0 2px var(--papel);
+}
+.regua-pontas { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--tinta-3); margin: 0.2em 0 0.35em; }
+.dispersao figcaption { margin: 0; font-size: 0.82rem; }
+.regua-marca { display: inline-block; width: 2px; height: 0.85em; background: var(--tinta-2); margin-right: 0.45em; vertical-align: -0.08em; }
+
+/* aba Mapa: cartão do território */
+.cartao-territorio .sub { margin-bottom: 0.2em; font-size: 0.88rem; }
+.cartao-territorio .endereco { color: var(--tinta-2); font-size: 0.82rem; margin: 0 0 0.3em; }
+.cartao-territorio .selos { display: flex; flex-wrap: wrap; gap: 0.3em; margin: 0.3em 0 0; }
+.cartao-territorio .numeros { gap: 0.3em 1.2em; margin: 0.7em 0 0.5em; }
+.cartao-territorio .acoes { margin: 0.2em 0 0.4em; }
+.cartao-territorio > .nota:last-child { margin: 0.4em 0 0; }
+.selo-nucleo { border-color: var(--nucleo); color: var(--nucleo-texto); }
+.secoes-titulo { font-size: 0.95rem; margin: 0.9em 0 0.2em; }
+.tabela.secoes { font-size: 0.84rem; }
+.tabela.secoes td:first-child { color: var(--tinta-2); }
+
+/* aba Mapa: legenda */
+.legenda h2 { margin-bottom: 0.25em; }
+.legenda > .nota { margin-bottom: 0.5em; }
+.legenda-tabela { margin: 0.2em 0 0.8em; font-size: 0.86rem; }
+.legenda-tabela td { padding: 0.3em 0.4em; vertical-align: middle; }
+.legenda-tabela td:first-child { width: 22px; padding-left: 0; padding-right: 0; }
+.legenda-tabela td:nth-child(2) { white-space: nowrap; }
+.legenda-tabela td:nth-child(3) { color: var(--tinta-2); }
+.legenda-tabela tr.vazia td:not(:first-child) { color: var(--tinta-3); }
+.legenda .amostra { margin-right: 0; }
+.amostra-sem-voto { box-shadow: inset 0 0 0 1px var(--linha-forte); }
+.amostra-nucleo { flex: none; background: transparent; border: 2px solid var(--nucleo); border-radius: 2px; margin-top: 0.15em; }
+.legenda-nucleo { display: flex; gap: 0.55em; align-items: flex-start; font-size: 0.88rem; margin: 0 0 0.6em; }
+
+/* aba Municípios */
+.lista-municipios { margin: 0.2em 0 0.8em; }
+.lista-municipios > li { border-bottom: 1px solid var(--linha); }
+.mun {
+  display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; column-gap: 0.3em; row-gap: 0.1em; align-items: baseline;
+  padding: 0.45em 0 0.5em; text-decoration: none;
+}
+.mun:hover .mun-nome { text-decoration: underline; text-decoration-color: var(--tinta-3); text-underline-offset: 2px; }
+.mun-pos { color: var(--tinta-3); font-size: 0.82rem; }
+.mun-nome { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.mun-valor { font-weight: 700; }
+.mun-sub { grid-column: 2 / 4; color: var(--tinta-2); font-size: 0.8rem; }
+.mun .barra { grid-column: 2 / 4; margin-top: 0.2em; }
+/* "até aqui, metade dos votos": a mesma cor do contorno do núcleo no mapa */
+.lista-municipios > li.divisoria { border-bottom: 2px solid var(--nucleo); margin-top: -1px; padding: 0.7em 0 0.25em 2.3em; }
+.divisoria span { color: var(--nucleo-texto); font-size: 0.8rem; font-weight: 600; }
+.nota-nucleo { border-left: 2px solid var(--nucleo); padding-left: 0.7em; }

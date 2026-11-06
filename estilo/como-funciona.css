@@ -1,0 +1,119 @@
+/* A página "Como funciona" (#32). Carregada quando a página abre (js/vistas/registro.js). Tudo fica sob
+   .como-funciona, para não esbarrar nas classes das outras vistas, cujas folhas continuam no documento.
+   O que a página tem de próprio é a fração das medidas: o resto usa os tokens e os componentes de base.css. */
+.como-funciona {
+  --cf-realce-fundo: #e4ecf7;
+  --cf-nucleo: #e8590c;
+  --cf-nucleo-texto: #b5470b;
+  line-height: 1.5;
+}
+.como-funciona p, .como-funciona .lista, .como-funciona .passos { max-width: 38em; }
+
+/* "Voltar para" quem abriu a página: no computador, fica preso no alto do painel enquanto se lê */
+.cf-voltar { margin: 0; }
+.cf-voltar .voltar { margin-bottom: 0.3em; }
+@media (min-width: 900px) {
+  .cf-voltar {
+    /* o painel tem 14px de respiro em cima, e o sticky conta a partir dele */
+    position: sticky; top: -14px; z-index: 2; margin: -14px -16px 0; padding: 8px 16px 4px; background: var(--papel);
+    border-bottom: 1px solid var(--linha);
+  }
+}
+.como-funciona .titulo { font-size: 1.6rem; margin-bottom: 0.35em; }
+.cf-abre { font-size: 1.04rem; color: var(--tinta); }
+
+/* índice da página: duas colunas de links curtos; as seções não são uma sequência, então sem números */
+.cf-indice { margin: 0.9em 0 0.4em; border-top: 1px solid var(--linha); padding: 0.55em 0 0; }
+.cf-indice ul { columns: 2; column-gap: 1.2em; font-size: 0.86rem; line-height: 1.3; }
+.cf-indice li { break-inside: avoid; padding: 0.22em 0; }
+.cf-indice a { text-decoration-color: var(--linha-forte); }
+
+/* seções */
+.cf-secao { margin-top: 1.9em; padding-top: 0.9em; border-top: 2px solid var(--tinta); }
+.cf-secao h2 { font-stretch: var(--largo); font-size: 1.16rem; letter-spacing: -0.005em; margin: 0 0 0.55em; }
+.cf-secao h3 { font-size: 0.98rem; font-weight: 700; margin: 1.5em 0 0.4em; }
+.cf-secao h2:focus, .cf-secao h3:focus { outline: none; }
+.cf-secao .nota { line-height: 1.45; }
+
+/* a seção pedida pelo "o que é isto?": o título acende e apaga, para o olho achar onde chegou */
+.cf-alvo { animation: cf-acende 2.4s ease-out 1; border-radius: 3px; }
+@keyframes cf-acende {
+  0%, 35% { background: var(--cf-realce-fundo); box-shadow: 0 0 0 6px var(--cf-realce-fundo); }
+  100% { background: transparent; box-shadow: 0 0 0 6px transparent; }
+}
+
+/* termos: o nome em negrito, a definição logo abaixo */
+.termos { margin: 0.5em 0 0.9em; }
+.termos > div { padding: 0.45em 0; border-bottom: 1px solid var(--linha); }
+.termos > div:first-child { border-top: 1px solid var(--linha); }
+.termos dt { font-weight: 700; margin-bottom: 0.1em; }
+.termos dd { margin: 0; }
+.lista { margin: 0.3em 0 0.8em; }
+.lista > li { position: relative; padding-left: 1em; margin-bottom: 0.4em; }
+.lista > li::before { content: ''; position: absolute; left: 0.1em; top: 0.68em; width: 0.38em; height: 2px; background: var(--tinta-3); }
+.passos { list-style: decimal; padding-left: 1.4em; margin: 0.3em 0 0.8em; }
+.passos > li { margin-bottom: 0.3em; padding-left: 0.2em; }
+.passos > li::marker { font-weight: 700; color: var(--tinta-2); }
+
+/* a fração de cada medida, logo abaixo do título: o que se divide pelo quê, empilhado sobre a barra azul */
+.como-funciona .fracao {
+  display: inline-flex; flex-direction: column; align-items: center; text-align: center; max-width: 100%;
+  margin: 0.15em 0 0.9em;
+}
+.fracao-cima, .fracao-baixo { font-stretch: var(--largo); font-weight: 600; font-size: 1rem; line-height: 1.25; padding: 0.2em 0.5em; }
+.fracao-baixo { border-top: 2px solid var(--realce); align-self: stretch; }
+
+/* as faixas da escala de cor, lado a lado, com o valor de cada corte embaixo */
+.faixas { position: relative; margin: 0.3em 0 2.6em; max-width: 26em; }
+.faixas-cores { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 2px; height: 16px; }
+.faixas-cores span { border-radius: 1px; }
+.faixas-cortes, .faixas-media { position: absolute; left: 0; right: 0; }
+.faixas-cortes { top: 19px; height: 1.2em; }
+.faixas-cortes span { position: absolute; transform: translateX(-50%); font-size: 0.74rem; color: var(--tinta-2); white-space: nowrap; }
+.faixas-cortes span::before { content: ''; position: absolute; left: 50%; top: -4px; height: 3px; border-left: 1px solid var(--tinta-3); }
+.faixas-media {
+  top: 37px; right: auto; transform: translateX(-50%); margin: 0; font-size: 0.74rem; font-weight: 600; white-space: nowrap;
+  color: var(--tinta);
+}
+.faixas-media::before { content: '▲'; font-size: 0.6rem; margin-right: 0.25em; color: var(--tinta-2); }
+.cf-exemplo { font-size: 0.88rem; color: var(--tinta-2); margin: 0.9em 0 0.35em; }
+.amostra-borda { box-shadow: inset 0 0 0 1px var(--linha-forte); }
+.cor-nucleo { color: var(--cf-nucleo-texto); font-weight: 600; }
+
+/* a régua da dispersão: de 0% (concentrado) a 50% (espalhado), com a faixa dos senadores e a mediana dos deputados */
+.regua-cf { margin: 0.6em 0 1em; max-width: 26em; }
+.regua-cf-trilho { position: relative; height: 18px; margin: 0 1px; }
+.regua-cf-trilho::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 8px; height: 2px; border-radius: 1px;
+  background: linear-gradient(to right, var(--tinta-3), var(--linha-forte));
+}
+.regua-cf-senadores { position: absolute; top: 3px; height: 12px; border-radius: 6px; background: rgba(83, 92, 101, 0.28); }
+.regua-cf-deputados { position: absolute; top: 3px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--realce); box-shadow: 0 0 0 2px var(--papel); }
+.regua-cf-pontas { display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--tinta-3); margin: 0.15em 0 0.4em; }
+.regua-cf figcaption { display: grid; gap: 0.2em; font-size: 0.84rem; color: var(--tinta-2); }
+.regua-cf-chave i { display: inline-block; vertical-align: -0.05em; margin-right: 0.45em; }
+.chave-deputados { width: 10px; height: 10px; border-radius: 50%; background: var(--realce); }
+.chave-senadores { width: 18px; height: 10px; border-radius: 5px; background: rgba(83, 92, 101, 0.28); }
+
+/* tabelas recolhidas: as 27 UFs */
+.cf-tabela { margin: 0.4em 0 0.9em; border: 1px solid var(--linha); border-radius: 6px; background: #fff; }
+.cf-tabela > summary { padding: 0.5em 0.75em; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+.cf-tabela[open] > summary { border-bottom: 1px solid var(--linha); }
+.cf-tabela .tabela { font-size: 0.86rem; }
+.cf-tabela .tabela th[scope="row"] { font-weight: 500; color: var(--tinta); font-size: 0.86rem; border-bottom: 1px solid var(--linha); padding: 0.3em 0.5em; }
+.cf-tabela .tabela tr:last-child > * { border-bottom: 0; }
+.cf-tabela .refeita { font-weight: 700; }
+.cf-tabela > .nota { margin: 0.4em 0.75em 0.6em; }
+.cf-trajetoria { margin: 0.2em 0 0.6em; max-width: 24em; }
+.cf-trajetoria th[scope="row"] { font-weight: 600; color: var(--tinta); font-size: 0.9rem; border-bottom: 1px solid var(--linha); padding: 0.35em 0.5em; }
+
+/* marcas, na mesma aparência das do ranking do território */
+.como-funciona .selo-alerta { border-color: var(--alerta); color: var(--alerta); }
+.como-funciona .selo-tracejado { border-style: dashed; }
+
+/* fontes e referências */
+.fontes .arquivos { margin: 0.4em 0 0.2em; font-size: 0.86rem; }
+.fontes .arquivos li { padding: 0.25em 0; border-top: 1px dashed var(--linha); }
+.arquivo-data { display: block; color: var(--tinta-2); font-size: 0.8rem; }
+.referencias { margin: 0.8em 0 0; font-size: 0.84rem; color: var(--tinta-2); }
+.referencias li { padding-left: 1.2em; text-indent: -1.2em; margin-bottom: 0.35em; }

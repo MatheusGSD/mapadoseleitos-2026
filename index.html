@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+  Site do mapa #1: de onde vieram os votos de cada deputado federal e senador eleito em 2026.
+  HTML e módulos ES, sem etapa de build. Como rodar: site/README.md. O título de cada tela vem de js/config.js.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa dos eleitos</title>
+  <!-- o cartão de compartilhamento (#31): um só para qualquer link, porque o robô da prévia não lê o que vem depois do #
+       nem roda JavaScript. Nome e descrição repetem js/config.js; a imagem sai de cartao.mjs e só o robô a baixa.
+       testes/cartao.test.js confere os três. -->
+  <meta name="description" content="De onde vieram os votos de cada deputado federal e senador eleito em 2026">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Mapa dos eleitos">
+  <meta property="og:title" content="Mapa dos eleitos">
+  <meta property="og:description" content="De onde vieram os votos de cada deputado federal e senador eleito em 2026">
+  <meta property="og:url" content="https://mapadoseleitos.dalmolin.dev/">
+  <meta property="og:image" content="https://mapadoseleitos.dalmolin.dev/cartao.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mapa do Brasil com os municípios e o nome do site">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mapa dos eleitos">
+  <meta name="twitter:description" content="De onde vieram os votos de cada deputado federal e senador eleito em 2026">
+  <meta name="twitter:image" content="https://mapadoseleitos.dalmolin.dev/cartao.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <!-- Archivo em dois cortes: o variável de peso (35 KB) e o SemiExpanded bold dos nomes (15 KB). Pedidos juntos,
+       o Google manda o arquivo com o eixo de largura inteiro (90 KB). -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112.5,700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="estilo/base.css" rel="stylesheet">
+  <link href="estilo/painel.css" rel="stylesheet">
+  <link href="estilo/entrada.css" rel="stylesheet">
+  <script type="importmap">
+    { "imports": { "maplibre-gl": "https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.mjs" } }
+  </script>
+  <!-- os módulos que o principal.js importa, pedidos todos de uma vez: sem isto, chegam em três voltas de rede, e
+       no "Fast 3G" do DevTools cada volta custa 562 ms (#33). testes/carga.test.js confere a lista. -->
+  <link rel="modulepreload" href="js/config.js">
+  <link rel="modulepreload" href="js/dados.js">
+  <link rel="modulepreload" href="js/nucleo/arquivos.js">
+  <link rel="modulepreload" href="js/nucleo/topojson.js">
+  <link rel="modulepreload" href="js/nucleo/busca.js">
+  <link rel="modulepreload" href="vendor/minisearch@7.2.0/minisearch.min.js">
+  <link rel="modulepreload" href="js/nucleo/texto.js">
+  <link rel="modulepreload" href="js/nucleo/rotas.js">
+  <link rel="modulepreload" href="js/nucleo/ufs.js">
+  <link rel="modulepreload" href="js/nucleo/formato.js">
+  <link rel="modulepreload" href="js/ui/html.js">
+  <link rel="modulepreload" href="js/ui/caixa-busca.js">
+  <link rel="modulepreload" href="js/ui/componentes.js">
+  <link rel="modulepreload" href="js/mapa/sem-mapa.js">
+  <link rel="modulepreload" href="js/vistas/registro.js">
+</head>
+<body>
+  <div class="raiz">
+    <!-- o painel vem antes do mapa: no teclado, a busca e a lista chegam primeiro (#33); no celular, o CSS põe o mapa
+         em cima -->
+    <aside class="painel">
+      <header class="topo">
+        <a class="marca" href="#/" data-nome-do-site></a>
+        <div class="busca" id="busca"></div>
+        <nav class="trilha" id="trilha" aria-label="Onde você está"></nav>
+      </header>
+      <main class="conteudo" id="conteudo" tabindex="-1">
+        <p class="carregando">Carregando os eleitos…</p>
+      </main>
+      <!-- o que muda sem trocar de página (a contagem ao ligar um filtro), para o leitor de tela: fica fora do conteúdo,
+           que as vistas redesenham, e por isso é lido (#33) -->
+      <p class="so-leitor" id="anuncio" role="status"></p>
+      <footer class="rodape" id="rodape"></footer>
+    </aside>
+    <div class="mapa" id="mapa"></div>
+    <details class="camadas" id="camadas" hidden>
+      <summary>Camadas</summary>
+      <label><input type="checkbox" data-camada="municipios" checked> Municípios</label>
+      <label><input type="checkbox" data-camada="locais" checked> Locais de votação</label>
+      <label title="Aparecem ao aproximar o mapa de um município"><input type="checkbox" data-camada="ruas" checked> Ruas e nomes</label>
+    </details>
+  </div>
+  <noscript><p class="carregando">O site precisa de JavaScript para mostrar o mapa e a lista dos eleitos.</p></noscript>
+  <script type="module" src="js/principal.js"></script>
+</body>
+</html>
