@@ -74,7 +74,8 @@ const ctx = {
 globalThis.__site = ctx;
 
 $('#rodape').innerHTML = String(h`<p>Resultado oficial do TSE, totalizado até ${dataBR(indice.foto)}. Ainda pode mudar por
-  decisão da Justiça Eleitoral. <a href="${escreverRota({ vista: 'como-funciona', secao: null })}">Como funciona</a></p>`);
+  decisão da Justiça Eleitoral. <a href="${escreverRota({ vista: 'como-funciona', secao: null })}">Como funciona</a></p>
+  <p>Feito por Matheus Dalmolin · <a href="https://dalmolin.dev/" target="_blank" rel="noopener">dalmolin.dev</a></p>`);
 
 montarBusca($('#busca'), {
   busca: ctx.busca,
